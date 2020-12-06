@@ -38,6 +38,14 @@ def getColNum(colstring):
                 del collist[0:count]
                 count = len(collist)
 
+def GetPartTwo(sortedlist):
+    myseat = sortedlist[1] + 1
+    for i in range(1, len(sortedlist)-1):
+        if sortedlist[i + 1] == myseat:
+            myseat += 1
+        else:
+            return myseat
+
 with open('day5input.txt') as f:
     content = f.readlines()
     
@@ -53,5 +61,6 @@ for i in range(0, len(content)):
     allSeats.append(seatnum)
    
 allSeats.sort()
-print(str(allSeats[-1]))
+print("The highest seat: " + str(allSeats[-1]))
+print("My seat: " + str(GetPartTwo(allSeats)))
 input()
