@@ -19,7 +19,7 @@ def makeBagDict(somefile):
             else:
                 innerbagquant = innerbag.split(" ", 1)[0]
                 innerbagcolor = innerbag.split(" ", 1)[1]
-            innerbagdict[innerbagcolor] = innerbagquant
+            innerbagdict[innerbagcolor] = int(innerbagquant)
         allBags[outerbag] = innerbagdict
     return allBags
 
@@ -42,10 +42,28 @@ def getParents(searchdict, masterParentList):
                     masterParentList.append(parent)
     return masterParentList
 
+# def getChildrenDict(bagdict, searchbag):
+    # immediateChildren = bagdict[searchbag]
+    # return immediateChildren
+
+# def getChildrenCount(bagdict, masterChildDict, count):
+    # if count == 0:
+        # masterChildDict.update(getChildrenDict(bagdict, "shiny gold"))
+        # count = len(masterChildDict)
+        # getChildrenCount(bagdict, masterChildDict, count)
+    # else:
+        # for child in masterChildDict:
+            # multiplier = masterChildDict[child]
+            # masterChildDict.update(getChildrenDict(bagdict, child))
+            # for bag in child:
+                # levelcount = multiplier * masterChildDict[bag]
+                # count += levelcount
+    # return count
 
 masterBagDict = makeBagDict('day7input.txt')
 parentBagsList = []
+#childBagDict = {}
 print("Number of bags that can eventually contain a shiny gold bag: " + str(len(getParents(masterBagDict, parentBagsList))))
-
+#print("Number of bags in each shiny gold bag: " + str(getChildrenCount(masterBagDict, childBagDict, 0)))
 input()
 
