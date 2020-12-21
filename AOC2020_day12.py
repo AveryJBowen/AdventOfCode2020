@@ -1,3 +1,5 @@
+import math
+
 def rotate(dir, current, deg):
     if dir == "R":
         current = current + deg
@@ -32,11 +34,43 @@ def getPartOne(instructionlist):
                 xcoord -= int(instruction[1:])
     return (abs(xcoord) + abs(ycoord))
 
+def getPartTwo(instructionlist):
+    shipPos = [0, 0]
+    waypoint = [10, 1]
+    
+    for instruction in instructionlist:
+        relx = waypoint[0] - shipPos[0]
+        rely = waypoint[1] - shipPos[1]
+        if instruction[0] == "R" or instruction[0] == "L":
+            if instruction[0] == "R":
+                waypoint = rotateWP(-(int(instruction[1:])), shipPos, waypoint)
+            else:
+                waypoint = rotateWP(int(instruction[1:]), shipPos, waypoint)
+        elif instruction[0] == "N":
+            waypoint[1] += int(instruction[1:])
+        elif instruction[0] == "S":
+            waypoint[1] -= int(instruction[1:])
+        elif instruction[0] == "E":
+            waypoint[0] += int(instruction[1:])
+        elif instruction[0] == "W":
+            waypoint[0] -= int(instruction[1:])
+        else:
+            shipPos = [shipPos[0] + (relx * int(instruction[1:])), shipPos[1] + (rely * int(instruction[1:]))]
+            waypoint = [relx + shipPos[0], rely + shipPos[1]]
+    return (abs(shipPos[0]) + abs(shipPos[1]))
+    
+
+def rotateWP(angle, origin, waypoint):
+	newx = origin[0]+math.cos(math.radians(angle))*(waypoint[0]-origin[0])-math.sin(math.radians(angle))*(waypoint[1]-origin[1])
+	newy = origin[1]+math.sin(math.radians(angle))*(waypoint[0]-origin[0])+math.cos(math.radians(angle))*(waypoint[1]-origin[1])
+	return [round(newx), round(newy)]
+
 with open("day12input.txt") as f:
     rawcontent = f.readlines()
 
 rawcontent = [x.strip("\n") for x in rawcontent]
 
-print("The Manhattan distance is: " + str(getPartOne(rawcontent)))
+print("The Manhattan distance for part 1 is: " + str(getPartOne(rawcontent)))
+print("The Manhattan distance for part 2 is: " + str(getPartTwo(rawcontent)))
 input()
 
